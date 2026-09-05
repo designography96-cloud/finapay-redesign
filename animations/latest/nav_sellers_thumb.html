@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fina · Sellers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilroy:wght@400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ind:#9300E4; --ind2:#AC3BEA; --ind-bg:#F3E2FC; --ind-line:#D9DEFF;
+    --ink:#000000; --t2:#4A5163; --t3:#8A92A6;
+    --line:#ECEEF4; --grn:#16B981; --grn-bg:#E4F8F0; --w:#fff;
+    --t:9s; --rise:cubic-bezier(.22,1,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:transparent}
+  body{font-family:'Gilroy','Inter',-apple-system,system-ui,sans-serif;
+    position:relative;min-height:100vh;overflow:hidden}
+  .stage{width:320px;height:300px;position:absolute;left:0;top:0;flex:none}
+  .col{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:18px}
+
+  .fl{opacity:0;transform:translateY(12px);animation:rise var(--t) var(--rise) infinite;will-change:opacity,transform}
+  @keyframes rise{0%{opacity:0;transform:translateY(12px)}4%{opacity:1;transform:translateY(0)}93%{opacity:1;transform:translateY(0)}97%,100%{opacity:0;transform:translateY(5px)}}
+  .d2{animation-delay:calc(var(--t)*0.05)}
+  .d3{animation-delay:calc(var(--t)*0.34)}
+
+  /* header: seller identity on the dark thumb */
+  .top{display:flex;align-items:center;gap:9px;padding:0 2px}
+  .av{width:30px;height:30px;border-radius:10px;flex:none;background:linear-gradient(135deg,var(--grn),#3DD5A5);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13px;box-shadow:0 8px 18px -4px rgba(22,185,129,.6)}
+  .who{flex:1;min-width:0}
+  .who b{display:block;font-size:12px;font-weight:700;color:#fff;letter-spacing:-.2px}
+  .who small{font-size:9px;color:rgba(255,255,255,.55);font-weight:500}
+  .tag{flex:none;font-size:9.5px;font-weight:700;color:#fff;background:rgba(22,185,129,.45);padding:4px 10px;border-radius:999px}
+
+  /* order card + stamp */
+  .inv{position:relative;background:var(--w);border-radius:14px;padding:11px 13px 12px;box-shadow:0 20px 44px -20px rgba(0,0,0,.55)}
+  .ih{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+  .ih b{font-family:'Bricolage Grotesque','Gilroy',sans-serif;font-size:12.5px;font-weight:600;color:var(--ink)}
+  .ih small{font-size:8.5px;font-weight:700;color:var(--t3);background:#F5F6FC;padding:2px 8px;border-radius:999px}
+  .li{display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-top:1px solid var(--line)}
+  .li span{font-size:10px;font-weight:600;color:var(--t2)}
+  .li b{font-family:'Bricolage Grotesque','Gilroy',sans-serif;font-size:10.5px;font-weight:600;color:var(--t2)}
+  .tot{display:flex;align-items:center;justify-content:space-between;margin-top:6px;padding-top:7px;border-top:1.5px dashed var(--line)}
+  .tot span{font-size:8.5px;font-weight:800;letter-spacing:.9px;color:var(--t3)}
+  .tot b{font-family:'Bricolage Grotesque','Gilroy',sans-serif;font-size:17px;font-weight:600;color:var(--ink)}
+  .tot b i{font-style:normal;font-size:9.5px;color:var(--t3);font-weight:600;margin-right:3px}
+
+  /* realistic rubber stamp */
+  .stamp{position:absolute;top:34px;right:12px;display:inline-flex;flex-direction:column;align-items:center;line-height:1.12;
+    font-family:'Bricolage Grotesque','Gilroy',sans-serif;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+    color:rgba(26,161,121,.9);border:1.75px solid rgba(26,161,121,.9);border-radius:5px;padding:4px 9px;background:transparent;
+    mix-blend-mode:multiply;filter:url(#stampInk);text-shadow:.5px .5px 0 rgba(26,161,121,.3);
+    opacity:0;transform:rotate(-9deg) scale(1.5);animation:stampIn var(--t) infinite}
+  .stamp::after{content:"";position:absolute;inset:2.5px;border:1px solid rgba(26,161,121,.85);border-radius:3px}
+  .stamp small{font-size:6.5px;font-weight:700;letter-spacing:.14em;margin-top:1px;opacity:.9}
+  @keyframes stampIn{0%,16%{opacity:0;transform:rotate(-9deg) scale(1.5)}18.5%{opacity:1;transform:rotate(-9deg) scale(.94)}20%{transform:rotate(-9deg) scale(1.03)}21.5%,93%{opacity:1;transform:rotate(-9deg) scale(1)}97%,100%{opacity:0}}
+
+  /* payout chips: buyer pays later · you get paid today */
+  .terms{display:flex;gap:8px}
+  .tc{flex:1;position:relative;text-align:center;background:rgba(255,255,255,.09);border:1.5px solid rgba(255,255,255,.16);border-radius:11px;padding:8px 4px 7px;color:rgba(255,255,255,.78)}
+  .tc b{display:block;font-family:'Bricolage Grotesque','Gilroy',sans-serif;font-size:12.5px;font-weight:600;color:#fff;letter-spacing:.2px}
+  .tc small{font-size:6.6px;font-weight:800;letter-spacing:.8px}
+  .tc.on{animation:tcOn var(--t) infinite}
+  @keyframes tcOn{0%,52%{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.16);box-shadow:none}
+    56%,100%{background:var(--grn);border-color:#3DD5A5;box-shadow:0 10px 24px -10px rgba(22,185,129,.85)}}
+  .tick{position:absolute;top:-7px;right:-7px;width:17px;height:17px;border-radius:50%;background:var(--w);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px -4px rgba(0,0,0,.35);
+    opacity:0;transform:scale(.4);animation:tickIn var(--t) var(--rise) infinite}
+  @keyframes tickIn{0%,55%{opacity:0;transform:scale(.4)}59%{opacity:1;transform:scale(1.15)}61%,93%{opacity:1;transform:scale(1)}97%,100%{opacity:0}}
+
+  @media (prefers-reduced-motion: reduce){
+    .fl{animation:none;opacity:1;transform:none}
+    .stamp{animation:none;opacity:1;transform:rotate(-9deg) scale(1)}
+    .tc.on{animation:none;background:var(--grn);border-color:#3DD5A5}
+    .tick{animation:none;opacity:1;transform:scale(1)}
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="stampInk"><feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" result="n"/><feComponentTransfer in="n" result="na"><feFuncA type="discrete" tableValues="0 0 0 .25 .5 0 .75 .9 1 1 0 1 1 .6 1 1"/></feComponentTransfer><feComposite in="SourceGraphic" in2="na" operator="in" result="tx"/><feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" result="w"/><feDisplacementMap in="tx" in2="w" scale="2"/></filter></svg>
+<div class="stage">
+  <div class="col">
+    <div class="fl top">
+      <span class="av">N</span>
+      <span class="who"><b>Nakhla Mart</b><small>Seller account</small></span>
+      <span class="tag">For Sellers</span>
+    </div>
+    <div class="fl d2 inv">
+      <div class="ih"><b>Order</b><small>ORD-8841</small></div>
+      <div class="li"><span>Retail display units</span><b>31,500</b></div>
+      <div class="li"><span>Modular shelving</span><b>16,500</b></div>
+      <div class="tot"><span>ORDER TOTAL</span><b><i>SAR</i>48,000</b></div>
+      <span class="stamp">Paid by Fina<small>✓ Today</small></span>
+    </div>
+    <div class="fl d3 terms">
+      <span class="tc"><b>60 days</b><small>BUYER PAYS FINA</small></span>
+      <span class="tc on"><b>Today</b><small>YOU GET PAID</small><span class="tick"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#16B981" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></span>
+    </div>
+  </div>
+</div>
+
+<script id="anim-i18n">
+(function(){var D={"Nakhla Mart":"نخلة مارت","Seller account":"حساب البائع","For Sellers":"للبائعين","Order":"الطلب","Retail display units":"وحدات عرض للتجزئة","Modular shelving":"أرفف قابلة للتركيب","ORDER TOTAL":"إجمالي الطلب","Paid by Fina":"مدفوع من فينا","✓ Today":"✓ اليوم","60 days":"60 يومًا","BUYER PAYS FINA":"المشتري يدفع لفينا","Today":"اليوم","YOU GET PAID":"تحصل على أموالك"};var ar=false;try{ar=(function(){try{var p=window.parent&&window.parent!==window?window.parent.document.documentElement.getAttribute("lang"):null;if(p)return p.toLowerCase().indexOf("ar")===0;}catch(e){}try{return localStorage.getItem("fina_lang")==="ar";}catch(e){}return false;})();}catch(e){}if(!ar)return;function w(n){for(var c=n.firstChild;c;c=c.nextSibling){if(c.nodeType===3){var r=c.nodeValue,k=r.replace(/\s+/g," ").trim();if(k&&D[k]){var l=(r.match(/^\s*/)||[""])[0],t=(r.match(/\s*$/)||[""])[0];c.nodeValue=l+D[k]+t;}}else if(c.nodeType===1&&!/^(script|style|svg)$/i.test(c.nodeName)){w(c);}}}w(document.body);})();
+</script>
+</body>
+</html>

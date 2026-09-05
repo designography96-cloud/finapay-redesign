@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<title>Fina - Flexible Payment Terms</title>
+<meta name="viewport" content="width=1920,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: rgb(250,250,250); overflow: hidden; }
+  #root { position: absolute; inset: 0; }
+</style>
+<script src="/finapay-redesign/green/assets/vendor/react.production.min.js"></script>
+<script src="/finapay-redesign/green/assets/vendor/react-dom.production.min.js"></script>
+
+</head>
+<body>
+<div id="root"></div>
+
+<script src="animations.compiled.js"></script>
+<script src="scenes.compiled.js"></script>
+
+<script>const TOTAL=16;function App(){return React.createElement(Stage,{width:1920,height:1080,duration:16,background:"rgb(250,250,250)",persistKey:"fina-flex-terms"},React.createElement(FlexibleTermsStory,null))}ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App,null));</script>
+
+<script id="anim-i18n">
+(function(){
+  var ar=false;try{ar=(function(){try{var p=window.parent&&window.parent!==window?window.parent.document.documentElement.getAttribute("lang"):null;if(p)return p.toLowerCase().indexOf("ar")===0;}catch(e){}try{return localStorage.getItem("fina_lang")==="ar";}catch(e){}return false;})();}catch(e){}
+  if(!ar)return;
+  // Full pill-label dictionary (Arabic + Arabic-Indic numerals).
+  // Terminology kept consistent with the project: numeric terms, "any term up to 1 year".
+  var D={
+    "Pay in full":"الدفع كاملاً",
+    "Pay in 4":"الدفع على ٤ دفعات",
+    "Pay in 30 days":"الدفع خلال ٣٠ يوماً",
+    "Pay in 60 days":"الدفع خلال ٦٠ يوماً",
+    "Pay in 90 days":"الدفع خلال ٩٠ يوماً",
+    "Growth Funding":"تمويل النمو"
+  };
+  // Convert any remaining Western digits to Arabic-Indic.
+  function toAr(s){return s.replace(/[0-9]/g,function(x){return String.fromCharCode(1632+ +x);});}
+  function apply(node){
+    for(var c=node.firstChild;c;c=c.nextSibling){
+      if(c.nodeType===3){
+        var raw=c.nodeValue,key=raw.replace(/\s+/g," ").trim();
+        if(!key)continue;
+        var out;
+        if(D[key]){
+          var l=(raw.match(/^\s*/)||[""])[0],t=(raw.match(/\s*$/)||[""])[0];
+          out=l+D[key]+t;
+        }else{
+          out=toAr(raw);
+        }
+        if(out!==raw)c.nodeValue=out;
+      }else if(c.nodeType===1&&!/^(script|style|svg)$/i.test(c.nodeName)){
+        apply(c);
+      }
+    }
+  }
+  // ── RTL LAYOUT MIRRORING ────────────────────────────────────────────────
+  // The scene is React/JSX: the card wraps two horizontal marquee "rows". Each
+  // row has an inner TRACK whose pills are absolutely positioned (left:i*stride)
+  // and which scrolls via an inline `transform: translateX(shift)` that React
+  // rewrites EVERY frame. We mirror geometrically (NOT with scaleX, which would
+  // mirror the glyphs) by, each frame after React paints:
+  //   • track:  negate translateX  → scroll/flow runs right-to-left
+  //   • pill:   left' = trackW - left - PILL_W  → pill order mirrored in place
+  //   • pill:   direction:rtl  → internal order (radio→bar→label) + right-align
+  // React resets these inline values to their originals every frame, so doing
+  // the transform once per frame here is self-correcting (never compounds).
+  var PILL_RADIUS="660px"; // 100 * CARD_SCALE(6.6)
+  var PILL_W=1980;         // 300 * CARD_SCALE(6.6)
+  function mirror(node){
+    for(var c=node.firstChild;c;c=c.nextSibling){
+      if(c.nodeType!==1)continue;
+      var nn=c.nodeName.toLowerCase();
+      if(nn==="script"||nn==="style"||nn==="svg")continue;
+      var s=c.style;
+      // Set ONLY the pill’s internal text flow to RTL (idempotent, no geometry).
+      // We deliberately do NOT mirror positions / translateX: React rewrites those
+      // inline values every frame, so post-processing them races the paint = the
+      // Arabic-only flicker. Text + digits are still translated by apply().
+      if(s&&s.borderRadius===PILL_RADIUS&&s.display==="flex"){s.direction="rtl";s.textAlign="right";}
+      mirror(c);
+    }
+  }
+
+  // React re-renders every frame (rAF-driven playhead), recreating pill text
+  // nodes. Re-apply translation + RTL mirroring continuously so Arabic always
+  // wins. Timing/animation values are untouched — we only add a horizontal flip
+  // and rtl text direction. English (non-AR) path never runs any of this.
+  document.documentElement.setAttribute("dir","rtl");
+  document.documentElement.lang="ar";
+  // A rAF loop races React's own rAF: when ours runs first, React then paints
+  // the un-mirrored / English frame = flicker. A MutationObserver instead fires
+  // AFTER React mutates the DOM and BEFORE the browser paints, so the corrected
+  // frame is the one shown. Disconnect while we mutate so we never self-trigger.
+  function fix(){apply(document.body);mirror(document.body);}
+  var __moCfg={subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:["style"]};
+  var __mo=new MutationObserver(function(){__mo.disconnect();fix();__mo.observe(document.body,__moCfg);});
+  function start(){fix();__mo.observe(document.body,__moCfg);}
+  if(document.body){start();}else{window.addEventListener("DOMContentLoaded",start);}
+})();
+</script>
+
+
+</body></html>
