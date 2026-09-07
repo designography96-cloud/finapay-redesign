@@ -30,7 +30,7 @@
       '#fb-actions{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}' +
       '#fb-actions button{border:none;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit}' +
       '#fb-cancel{background:transparent;color:var(--text-2,#666)}' +
-      '#fb-save{background:var(--accent,#B6FF80);color:#000}' +
+      '#fb-save{background:var(--accent,#E6FE9F);color:#000}' +
       '#fb-pill{position:fixed;bottom:20px;right:20px;background:var(--ink,#000);color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;font-family:var(--font-sans,sans-serif);cursor:pointer;z-index:99998;box-shadow:0 4px 16px rgba(0,0,0,.25);display:none}';
     document.head.appendChild(s);
   }
