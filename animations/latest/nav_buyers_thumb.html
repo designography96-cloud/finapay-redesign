@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Gilroy:wght@400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ind:#9300E4; --ind2:#AC3BEA; --ind-bg:#F3E2FC; --ind-line:#D9DEFF;
+    --ind:#DFFF92; --ind2:#CDFF55; --ind-bg:#F4FAE5; --ind-line:#D9DEFF;
     --ink:#000000; --t2:#4A5163; --t3:#8A92A6;
     --line:#ECEEF4; --grn:#16B981; --grn-bg:#E4F8F0; --w:#fff;
     --t:9s; --rise:cubic-bezier(.22,1,.36,1);
@@ -28,11 +28,11 @@
 
   /* header — buyer identity on the dark thumb */
   .top{display:flex;align-items:center;gap:9px;padding:0 2px}
-  .av{width:30px;height:30px;border-radius:10px;flex:none;background:linear-gradient(135deg,var(--ind),var(--ind2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13px;box-shadow:0 8px 18px -4px rgba(147, 0, 228,.6)}
+  .av{width:30px;height:30px;border-radius:10px;flex:none;background:linear-gradient(135deg,var(--ind),var(--ind2));display:flex;align-items:center;justify-content:center;color:#000;font-weight:800;font-size:13px;box-shadow:0 8px 18px -4px rgba(223, 255, 146,.6)}
   .who{flex:1;min-width:0}
   .who b{display:block;font-size:12px;font-weight:700;color:#fff;letter-spacing:-.2px}
   .who small{font-size:9px;color:rgba(255,255,255,.55);font-weight:500}
-  .tag{flex:none;font-size:9.5px;font-weight:700;color:#fff;background:rgba(147, 0, 228,.5);padding:4px 10px;border-radius:999px}
+  .tag{flex:none;font-size:9.5px;font-weight:700;color:#fff;background:rgba(223, 255, 146,.5);padding:4px 10px;border-radius:999px}
 
   /* invoice card + stamp */
   .inv{position:relative;background:var(--w);border-radius:14px;padding:11px 13px 12px;box-shadow:0 20px 44px -20px rgba(0,0,0,.55)}
@@ -64,7 +64,7 @@
   .tc small{font-size:7px;font-weight:800;letter-spacing:1px}
   .tc.on{animation:tcOn var(--t) infinite}
   @keyframes tcOn{0%,52%{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.16);box-shadow:none}
-    56%,100%{background:var(--ind);border-color:var(--ind2);box-shadow:0 10px 24px -10px rgba(147, 0, 228,.8)}}
+    56%,100%{background:var(--ind);border-color:var(--ind2);box-shadow:0 10px 24px -10px rgba(223, 255, 146,.8)}}
   .tick{position:absolute;top:-7px;right:-7px;width:17px;height:17px;border-radius:50%;background:var(--grn);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px -4px rgba(22,185,129,.7);
     opacity:0;transform:scale(.4);animation:tickIn var(--t) var(--rise) infinite}
   @keyframes tickIn{0%,55%{opacity:0;transform:scale(.4)}59%{opacity:1;transform:scale(1.15)}61%,93%{opacity:1;transform:scale(1)}97%,100%{opacity:0}}
